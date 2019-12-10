@@ -1,7 +1,6 @@
-<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>hello！社区</title>
+    <title>发布 - hello！社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
@@ -16,7 +15,7 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">hello!社区</span>
             </button>
-            <a class="navbar-brand" href="#">hello!社区</a>
+            <a class="navbar-brand" href="/">hello!社区</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -47,26 +46,33 @@
         </div>
     </div>
 </nav>
+<hr>
 <div class="container-fluid main">
     <div class="row">
         <div class="col-md-9">
-            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"> 发现</span></h2>
+            <h2><span class="glyphicon glyphicon-plus">发起</span></h2>
             <hr>
-            <div class="media">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object img-thumbnail" src="https://avatars3.githubusercontent.com/u/58588344?v=4">
-                    </a>
+
+            <form action="/publish" method="post">
+                <div class="form-group">
+                    <label for="title">问题标题（简单摘要）：</label>
+                    <input type="text" class="form-control" id="title"  th:value="${title}" name="title" placeholder="问题标题...">
                 </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Spring Boot开发</h4>
-                    开发 流程<br>
-                    <span class="text-desc"> 5 个评论 • 1372 次浏览 • 3 天前</span>
+                <div class="form-group">
+                    <label for="title">问题补充（必填，请参考右侧提示）：</label>
+                    <textarea name="description" id="description" th:text="${description}" class="form-control" cols="30" rows="10"></textarea>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="title">添加标签</label>
+                    <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag" placeholder="输入标签，以逗号隔开">
+                </div>
+                <div class="alert alert-danger" th:if="${error!= null}" th:text="${error}"></div>
+                <button type="submit" class="btn btn-success btn-publish">发布</button>
+            </form>
+
         </div>
         <div class="col-md-3">
-            <h3>热门话题</h3>
+            <h3>问题发起指南</h3>
             • 问题标题: 请用精简的语言描述您发布的问题，不超过25字<br>
             • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料<br>
             • 选择标签: 选择一个或者多个合适的标签，用逗号隔开不超过10个字

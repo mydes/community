@@ -1,0 +1,22 @@
+body{
+    background: #efefef;
+}
+.main{
+    margin: 30px 50px 30px 50px;
+    background: white;
+    border-radius: 10px;
+}
+
+.btn-publish{
+    float: right;
+    margin-bottom: 15px;
+}
+.img-thumbnail{
+    width: 45px;
+    height: 45px;
+}
+.text-desc{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}

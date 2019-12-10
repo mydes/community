@@ -10,7 +10,8 @@ import java.io.IOException;
 
 @Component
 public class GithubProvider {
-    public String geAccessToken(AccessTokenDTO accessTokenDTO){
+    //向github发送post请求得到token
+    public String getAccessToken(AccessTokenDTO accessTokenDTO){
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(mediaType, JSON.toJSONString(accessTokenDTO));
@@ -28,6 +29,7 @@ public class GithubProvider {
 
         return null;
     }
+    //得到token后携带token的值访问github/user得用户id、名字等信息
     public GithubUser getUser(String accessToken){
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
