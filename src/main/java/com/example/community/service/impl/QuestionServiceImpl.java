@@ -62,7 +62,7 @@ public class QuestionServiceImpl implements QuestionService {
         if (page>paginationDTO.getTotalPage()){
             page=paginationDTO.getTotalPage();
         }
-        //size*(page-1)
+        //size*(page-1)（数据库为空的时候计算的是个负数）
         Integer offSet = size * (page -1);
 
         //根据计算的下标和分页展示数据条数

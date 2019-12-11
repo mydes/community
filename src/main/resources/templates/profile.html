@@ -39,27 +39,28 @@
                 <ul class="pagination">
                     <!--分页左边箭头-->
                     <li th:if="${paginationDTO.showFirstPage}">
-                        <a href="/?page=1" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(page=${1})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                     </li>
                     <li th:if="${paginationDTO.showPrevious}">
-                        <a th:href="@{/(page=${paginationDTO.page - 1})}" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(page=${paginationDTO.page - 1})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
                     <!--是否高亮显示-->
                     <li th:each="page : ${paginationDTO.pages}" th:class="${paginationDTO.page==page}?'active':''">
-                        <a th:text="${page}"  th:href="@{/(page=${page})}"></a>
+                        <!--页码-->
+                        <a  th:href="@{'/profile/'+${section}(page=${page})}"  th:text="${page}"></a>
                     </li>
                     <!--分页右边箭头-->
                     <li th:if="${paginationDTO.showNext}">
-                        <a th:href="@{/(page=${paginationDTO.page+1})}" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(page=${paginationDTO.page + 1})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
                     <li th:if="${paginationDTO.showEndPage}">
-                        <a th:href="@{/(page=${paginationDTO.totalPage})}" aria-label="Previous">
+                        <a th:href="@{'/profile/'+${section}(page=${paginationDTO.totalPage})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>
