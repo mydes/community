@@ -1,4 +1,4 @@
-package com.example.community.community;
+package com.example.community;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

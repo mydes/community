@@ -1,9 +1,12 @@
-package com.example.community.community.controller;
+package com.example.community.controller;
 
-import com.example.community.community.domain.Question;
-import com.example.community.community.domain.User;
-import com.example.community.community.mapper.QuestionMapper;
-import com.example.community.community.mapper.UserMapper;
+import com.example.community.domain.Question;
+import com.example.community.domain.User;
+import com.example.community.dto.PaginationDTO;
+import com.example.community.dto.QuestionDTO;
+import com.example.community.mapper.QuestionMapper;
+import com.example.community.mapper.UserMapper;
+import com.example.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +22,12 @@ public class IndexController {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private QuestionMapper questionMapper;
+    private QuestionService questionService;
     @GetMapping("/")
-    public String index(HttpServletRequest request,Model model){
+    public String index(HttpServletRequest request,Model model,
+                            @RequestParam(name = "page",defaultValue = "1") Integer page,
+                            @RequestParam(name = "size",defaultValue = "5") Integer size
+                        ){
         //进入网站后判断cookie中是否有登录成功后的token
         Cookie[] cookies = request.getCookies();
         //判断cookies中是否有值，避免用户删掉Cookie后登录报错
@@ -37,8 +43,8 @@ public class IndexController {
                 }
             }
         }
-        List<Question> questions = questionMapper.findAll();
-        model.addAttribute("questions",questions);
+        PaginationDTO pagination = questionService.findAll(page,size);
+        model.addAttribute("pagination",pagination);
         return "index";
     }
 }

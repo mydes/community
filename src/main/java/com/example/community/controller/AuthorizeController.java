@@ -1,15 +1,14 @@
-package com.example.community.community.controller;
+package com.example.community.controller;
 
-import com.example.community.community.domain.User;
-import com.example.community.community.dto.AccessTokenDTO;
-import com.example.community.community.dto.GithubUser;
-import com.example.community.community.mapper.UserMapper;
-import com.example.community.community.provider.GithubProvider;
+import com.example.community.domain.User;
+import com.example.community.dto.AccessTokenDTO;
+import com.example.community.dto.GithubUser;
+import com.example.community.mapper.UserMapper;
+import com.example.community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
@@ -52,12 +51,13 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            user.setAvatarUrl(githubUser.getAvatar_url());
+            user.setAvatarUrl(githubUser.getAvatarUrl());
             userMapper.insert(user);
+            System.out.println(user.getAvatarUrl());
             //把token写入Cookie回写给浏览器
             response.addCookie(new Cookie("token",token));
             request.getSession().setAttribute("user",githubUser);
-            //成功后，不要头部带有拼接信息就用重定向
+            //成功后，用重定向
             return "redirect:/";
         }else {
             return "redirect:/";

@@ -1,6 +1,6 @@
-package com.example.community.community.mapper;
+package com.example.community.mapper;
 
-import com.example.community.community.domain.User;
+import com.example.community.domain.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,4 +12,6 @@ public interface UserMapper {
     void insert(User user);
     @Select("select * from user where token=#{token}")
     User findBiToken(@Param("token") String token);
+    @Select("select * from user where id = #{id}")
+    User findById(@Param("id") Integer id);
 }

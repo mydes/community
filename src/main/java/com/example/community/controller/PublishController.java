@@ -1,9 +1,9 @@
-package com.example.community.community.controller;
+package com.example.community.controller;
 
-import com.example.community.community.domain.Question;
-import com.example.community.community.domain.User;
-import com.example.community.community.mapper.QuestionMapper;
-import com.example.community.community.mapper.UserMapper;
+import com.example.community.domain.Question;
+import com.example.community.domain.User;
+import com.example.community.mapper.QuestionMapper;
+import com.example.community.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

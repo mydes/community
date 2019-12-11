@@ -52,24 +52,43 @@
         <div class="col-md-9">
             <h2><span class="glyphicon glyphicon-list" aria-hidden="true"> 发现</span></h2>
             <hr>
-            <div class="media">
+            <!--展示帖子-->
+            <div class="media" th:each="question : ${pagination.questionDTOs}">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object img-thumbnail" src="https://avatars3.githubusercontent.com/u/58588344?v=4">
+                        <img class="media-object img-thumbnail" th:src="${question.user.avatarUrl}">
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">Spring Boot开发</h4>
-                    开发 流程<br>
-                    <span class="text-desc"> 5 个评论 • 1372 次浏览 • 3 天前</span>
+                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <span th:text="${question.description}"></span><br>
+
+                    <span  class="text-desc">
+                        <span th:text="${question.commentCount}"></span> 个评论 •
+                        <span th:text="${question.viewCount}"></span> 次浏览 •
+                        <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                    </span>
                 </div>
             </div>
+            <!--分页-->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:each="page : ${pagination.pages}"><a href="#" th:text="${page}"></a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
         <div class="col-md-3">
             <h3>热门话题</h3>
-            • 问题标题: 请用精简的语言描述您发布的问题，不超过25字<br>
-            • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料<br>
-            • 选择标签: 选择一个或者多个合适的标签，用逗号隔开不超过10个字
         </div>
     </div>
 </div>

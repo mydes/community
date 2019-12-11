@@ -1,6 +1,6 @@
-package com.example.community.community.dto;
+package com.example.community.dto;
 
-import com.example.community.community.domain.User;
+import com.example.community.domain.User;
 import lombok.Data;
 
 @Data
