@@ -24,22 +24,8 @@ public class ProfileController {
     public String profile(@PathVariable(name="action")String action,Model model,HttpServletRequest request,
                           @RequestParam(name = "page",defaultValue = "1") Integer page,
                           @RequestParam(name = "size",defaultValue = "5") Integer size){
-        //进入网站后判断cookie中是否有登录成功后的token
-        Cookie[] cookies = request.getCookies();
-        //判断cookies中是否有值，避免用户删掉Cookie后登录报错
-        User user = null;
-        if (cookies!=null && cookies.length!=0){
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")){
-                    String token = cookie.getValue();
-                    user = userMapper.findBiToken(token);
-                    if (user != null){
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
+
+        User user = (User) request.getSession().getAttribute("user");
         if (user==null){
             return "redirect:/";
         }
@@ -51,8 +37,13 @@ public class ProfileController {
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","最新回复");
         }
+        //根据用户id查询当前用户的发帖数及分页
         PaginationDTO paginationDTO = questionService.findAll(user.getId(), page, size);
-        model.addAttribute("paginationDTO",paginationDTO);
+        if (paginationDTO==null){
+            model.addAttribute("noProblem","你没有提问哦");
+        }else {
+            model.addAttribute("paginationDTO",paginationDTO);
+        }
         return "profile";
     }
 }

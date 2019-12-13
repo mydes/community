@@ -19,23 +19,12 @@ public class PaginationDTO {
     private Integer page;
     //展示页码数
     private List<Integer> pages = new ArrayList<>();
-    //（totalCount总记录数）
+    //总页数
     private Integer totalPage;
 
-    public void setPagination(Integer totalCount, Integer page, Integer size) {
-        if(totalCount % size==0){
-            totalPage = totalCount / size;
-        }else{
-            totalPage = totalCount / size+1;
-        }
-        if (page<1){
-            page = 1;
-        }
-        if (page>totalPage){
-            page=totalPage;
-        }
+    public void setPagination(Integer totalPage, Integer page) {
         this.page=page;
-
+        this.totalPage=totalPage;
         pages.add(page);
         //判断展示页码数
         for (int i = 1; i<=3; i++){

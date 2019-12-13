@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="sectionName"></title>
+    <title th:text="${sectionName}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
@@ -17,25 +17,28 @@
             <h2><span th:text="${sectionName}"></span></h2>
             <hr>
             <!--展示帖子-->
-            <div class="media" th:each="question : ${paginationDTO.questionDTOs}">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object img-thumbnail" th:src="${question.user.avatarUrl}">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
-                    <span th:text="${question.description}"></span><br>
+            <div th:if="${paginationDTO}!=null">
+                <div class="media" th:each="question : ${paginationDTO.questionDTOs}">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-thumbnail" th:src="${question.user.avatarUrl}">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading" th:text="${question.title}"></h4>
+                        <span th:text="${question.description}"></span><br>
 
-                    <span  class="text-desc">
+                        <span  class="text-desc">
                         <span th:text="${question.commentCount}"></span> 个评论 •
                         <span th:text="${question.viewCount}"></span> 次浏览 •
                         <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
                     </span>
+                    </div>
                 </div>
             </div>
+
             <!--分页-->
-            <nav aria-label="Page navigation">
+            <nav aria-label="Page navigation" th:if="${paginationDTO}!=null">
                 <ul class="pagination">
                     <!--分页左边箭头-->
                     <li th:if="${paginationDTO.showFirstPage}">

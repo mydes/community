@@ -23,16 +23,24 @@ public class QuestionServiceImpl implements QuestionService {
     private UserMapper userMapper;
     @Override
     public PaginationDTO findAll(Integer page, Integer size) {
-
+        Integer totalPage;
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount = questionMapper.count();
-        paginationDTO.setPagination(totalCount,page,size);
+        if (totalCount==0){
+            return null;
+        }
+        if(totalCount % size==0){
+            totalPage = totalCount / size;
+        }else{
+            totalPage = totalCount / size+1;
+        }
         if (page<1){
             page = 1;
         }
-        if (page>paginationDTO.getTotalPage()){
-            page=paginationDTO.getTotalPage();
+        if (page>totalPage){
+            page=totalPage;
         }
+        paginationDTO.setPagination(totalPage,page);
         //size*(page-1)
         Integer offSet = size * (page -1);
 
@@ -53,22 +61,30 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public PaginationDTO findAll(Integer userId, Integer page, Integer size) {
+        Integer totalPage;
         PaginationDTO paginationDTO = new PaginationDTO();
-        Integer totalCount = questionMapper.count();
-        paginationDTO.setPagination(totalCount,page,size);
+        Integer totalCount = questionMapper.countByUserId(userId);
+        if (totalCount==0){
+            return null;
+        }
+        if(totalCount % size==0){
+            totalPage = totalCount / size;
+        }else{
+            totalPage = totalCount / size+1;
+        }
         if (page<1){
             page = 1;
         }
-        if (page>paginationDTO.getTotalPage()){
-            page=paginationDTO.getTotalPage();
+        if (page>totalPage){
+            page=totalPage;
         }
+        paginationDTO.setPagination(totalPage,page);
         //size*(page-1)（数据库为空的时候计算的是个负数）
         Integer offSet = size * (page -1);
 
         //根据计算的下标和分页展示数据条数
         List<Question> questions = questionMapper.findAllUserById(userId,offSet,size);
         List<QuestionDTO> questionDTOS = new ArrayList<>();
-        Integer tatalCount = questionMapper.countByUserId(userId);
         for (Question question : questions) {
             User user = userMapper.findById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
@@ -79,5 +95,27 @@ public class QuestionServiceImpl implements QuestionService {
         paginationDTO.setQuestionDTOs(questionDTOS);
 
         return paginationDTO;
+    }
+
+    @Override
+    public QuestionDTO getById(Integer id) {
+        Question question = questionMapper.getById(id);
+        QuestionDTO questionDTO = new QuestionDTO();
+        BeanUtils.copyProperties(question,questionDTO);
+        User user = userMapper.findById(question.getCreator());
+        questionDTO.setUser(user);
+        return questionDTO;
+    }
+
+    @Override
+    public void createOrUpdate(Question question) {
+        if(question.getId()==null){
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.create(question);
+        }else {
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.updatePublish(question);
+        }
     }
 }
