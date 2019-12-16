@@ -25,7 +25,9 @@
                         </a>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading" th:text="${question.title}"></h4>
+                        <h4 class="media-heading">
+                            <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
+                        </h4>
                         <span th:text="${question.description}"></span><br>
 
                         <span  class="text-desc">
@@ -42,6 +44,7 @@
                 <ul class="pagination">
                     <!--分页左边箭头-->
                     <li th:if="${paginationDTO.showFirstPage}">
+
                         <a th:href="@{'/profile/'+${section}(page=${1})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>

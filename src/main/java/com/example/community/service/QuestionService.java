@@ -7,9 +7,11 @@ import com.example.community.dto.QuestionDTO;
 public interface QuestionService {
     PaginationDTO findAll(Integer page, Integer size);
 
-    PaginationDTO findAll(Integer userId, Integer page, Integer size);
+    PaginationDTO findAll(Long userId, Integer page, Integer size);
 
-    QuestionDTO getById(Integer id);
+    QuestionDTO getById(Long id);
 
     void createOrUpdate(Question question);
+
+    void invView(Long id);
 }

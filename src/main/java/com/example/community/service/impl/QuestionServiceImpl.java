@@ -4,18 +4,23 @@ import com.example.community.domain.Question;
 import com.example.community.domain.User;
 import com.example.community.dto.PaginationDTO;
 import com.example.community.dto.QuestionDTO;
+import com.example.community.exception.CustomizeErrorCode;
+import com.example.community.exception.CustomizeException;
 import com.example.community.mapper.QuestionMapper;
 import com.example.community.mapper.UserMapper;
 import com.example.community.service.QuestionService;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
@@ -60,7 +65,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public PaginationDTO findAll(Integer userId, Integer page, Integer size) {
+    public PaginationDTO findAll(Long userId, Integer page, Integer size) {
         Integer totalPage;
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount = questionMapper.countByUserId(userId);
@@ -98,8 +103,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Long id) {
         Question question = questionMapper.getById(id);
+        if (question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
         User user = userMapper.findById(question.getCreator());
@@ -112,10 +120,19 @@ public class QuestionServiceImpl implements QuestionService {
         if(question.getId()==null){
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            question.setCommentCount(0);
             questionMapper.create(question);
         }else {
             question.setGmtModified(question.getGmtCreate());
             questionMapper.updatePublish(question);
         }
+    }
+
+    @Override
+    public void invView(Long id) {
+        Integer viewCount = questionMapper.findViewCount(id);
+        questionMapper.updateViewCount(viewCount,id);
     }
 }

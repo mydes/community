@@ -10,7 +10,7 @@ public interface UserMapper {
     @Select("select * from user where token=#{token}")
     User findBiToken(@Param("token") String token);
     @Select("select * from user where id = #{id}")
-    User findById(@Param("id") Integer id);
+    User findById(@Param("id") Long id);
     @Select("select * from user where account_id = #{accountId}")
     User findByAccountId(@Param("accountId") String accountId);
     @Update("UPDATE USER SET NAME = #{name},token = #{token},gmt_modified = #{gmtModified},avatar_url=#{avatarUrl} WHERE id = #{id}")
