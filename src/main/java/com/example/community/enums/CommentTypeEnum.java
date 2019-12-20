@@ -3,6 +3,7 @@ package com.example.community.enums;
 import com.example.community.domain.Comment;
 
 public enum CommentTypeEnum {
+    //用来判断是一级评论还是二级评论
     QUESTION(1),
     COMMENT(2);
     private Integer type;

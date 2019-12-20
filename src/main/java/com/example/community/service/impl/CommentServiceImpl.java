@@ -11,6 +11,7 @@ import com.example.community.mapper.CommentMapper;
 import com.example.community.mapper.QuestionMapper;
 import com.example.community.mapper.UserMapper;
 import com.example.community.service.CommentService;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,12 +39,17 @@ public class CommentServiceImpl implements CommentService {
             throw new CustomizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
         }
         if (comment.getType()==CommentTypeEnum.COMMENT.getType()){
+            //二级回复
             Comment dbComment = commentMapper.findById(comment.getParentId());
             if (dbComment == null){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.insertComment(comment);
+            //二级回复数
+            Integer commentCount = commentMapper.findCommentCount(comment.getParentId());
+            commentMapper.updateCommentCount(commentCount,comment.getParentId());
         }else {
+            //一级回复
             Question question = questionMapper.findById(comment.getParentId());
             if (question==null){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
@@ -52,13 +57,12 @@ public class CommentServiceImpl implements CommentService {
             commentMapper.insertComment(comment);
             Integer commentCount = questionMapper.findCommentCount(comment.getParentId());
             questionMapper.updateCommentCount(commentCount,comment.getParentId());
-
         }
     }
     //重點，重點，重點，重點，重點，重點，重點，重點
     @Override
-    public List<CommentDTO> findListQuestionId(Long id) {
-        List<Comment> comments = commentMapper.findListQuestionId(id);
+    public List<CommentDTO> findListQuestionId(Long id, CommentTypeEnum type) {
+        List<Comment> comments =   comments = commentMapper.findListQuestionId(id,type.getType());
         //遍历查询到的回復，取回復者id把他們存到set集合（set集合不能有重複，起到過濾作用）
         Set<Long> commentators = comments.stream().map(comment -> comment.getCommentator()).collect(Collectors.toSet());
         //轉換成list

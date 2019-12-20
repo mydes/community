@@ -28,7 +28,7 @@ body{
     font-size: 13px;
 }
 .media-body{
-    padding-top:10px;
+    padding-bottom:10px;
 }
 .btn-comment{
     float: right;
@@ -38,6 +38,15 @@ body{
     margin-bottom: 10px;
     border-bottom: 1px solid #eee;
 }
+.sub_comments{
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    padding-top: 15px;
+}
+.sub_comments .btn{
+   margin: 10px 0;
+}
 .menu{
     color:#999;
     margin-top: 5px;
@@ -46,6 +55,9 @@ body{
     margin-right: 6px;
     font-size: 15px;
     cursor: pointer;
+}
+.menu .active{
+    color: #499ef3;
 }
 .menu .icon:hover{
     color: #499ef3;
