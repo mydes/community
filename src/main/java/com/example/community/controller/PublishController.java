@@ -1,11 +1,13 @@
 package com.example.community.controller;
 
+import com.example.community.cache.TagCache;
 import com.example.community.domain.Question;
 import com.example.community.domain.User;
 import com.example.community.dto.QuestionDTO;
 import com.example.community.mapper.QuestionMapper;
 import com.example.community.mapper.UserMapper;
 import com.example.community.service.QuestionService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +33,8 @@ public class PublishController {
         return "publish";
     }
     @GetMapping("/publish")
-    public String publish(){
+    public String publish(Model model){
+        model.addAttribute("tags",TagCache.get());
         return "publish";
     }
     @PostMapping("/publish")
@@ -53,6 +56,11 @@ public class PublishController {
         }
         if(tag==null || tag.equals("")){
             model.addAttribute("error","标签不能为空");
+            return "publish";
+        }
+        String invalid = TagCache.filterInvalid(tag);
+        if (StringUtils.isNotBlank(invalid)){
+            model.addAttribute("error","输入非法标签："+invalid);
             return "publish";
         }
         if (request.getSession().getAttribute("user")==null){

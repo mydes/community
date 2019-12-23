@@ -20,12 +20,56 @@ body{
     font-weight: normal;
     color: #999;
 }
+
+.label-info {
+    margin-right: 5px;
+}
+.question-tag{
+    margin-right: 3px;;
+}
+.question-related{
+    line-height: 20px;
+    font-size: 12px;
+    margin-left: 5px;
+    list-style: none;
+    padding-left: 0;
+}
+.rightText{
+    line-height: 43px;
+}
+.weChat{
+    height: 155px;
+    width: 155px;
+}
+.publish-tag-tab{
+    display: none;
+    margin-top: 10px;
+}
 .profile .section{
     margin-top: 15px;
 }
 .community-menu{
     color: #999;
     font-size: 13px;
+}
+.community-tag:hover {
+    background-color: #339dff;
+    color: #fff !important;
+    text-decoration-line: none;
+}
+
+.community-tag {
+    text-decoration-line: none;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    line-height: 16px;
+    padding: 2px 5px;
+    background-color: #99cfff;
+    font-size: 12px;
+    color: #fff !important;
+    border-radius: 4px;
+    margin: 4px;
 }
 .media-body{
     padding-bottom:10px;

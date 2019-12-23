@@ -4,6 +4,7 @@ import com.example.community.domain.Comment;
 import com.example.community.domain.Question;
 import com.example.community.domain.User;
 import com.example.community.dto.CommentDTO;
+import com.example.community.dto.QuestionDTO;
 import com.example.community.enums.CommentTypeEnum;
 import com.example.community.exception.CustomizeErrorCode;
 import com.example.community.exception.CustomizeException;
@@ -12,15 +13,13 @@ import com.example.community.mapper.QuestionMapper;
 import com.example.community.mapper.UserMapper;
 import com.example.community.service.CommentService;
 import com.sun.org.apache.bcel.internal.generic.NEW;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -86,4 +85,5 @@ public class CommentServiceImpl implements CommentService {
         }).collect(Collectors.toList());
         return commentDTOS;
     }
+
 }

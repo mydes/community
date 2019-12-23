@@ -4,6 +4,8 @@ import com.example.community.domain.Question;
 import com.example.community.dto.PaginationDTO;
 import com.example.community.dto.QuestionDTO;
 
+import java.util.List;
+
 public interface QuestionService {
     PaginationDTO findAll(Integer page, Integer size);
 
@@ -14,4 +16,6 @@ public interface QuestionService {
     void createOrUpdate(Question question);
 
     void invView(Long id);
+
+    List<QuestionDTO> findListRelated(QuestionDTO questionDTO);
 }
