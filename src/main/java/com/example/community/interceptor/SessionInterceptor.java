@@ -2,6 +2,7 @@ package com.example.community.interceptor;
 
 import com.example.community.domain.User;
 import com.example.community.mapper.UserMapper;
+import com.example.community.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 @Component
 public class SessionInterceptor implements HandlerInterceptor {
+    @Autowired
+    private NotificationService notificationService;
     @Autowired
     private UserMapper userMapper;
     @Override
@@ -27,6 +30,8 @@ public class SessionInterceptor implements HandlerInterceptor {
                     User user = userMapper.findBiToken(token);
                     if (user != null){
                         request.getSession().setAttribute("user",user);
+                        Integer unreadCount = notificationService.unreadCount(user.getId());
+                        request.getSession().setAttribute("unreadCount",unreadCount);
                     }
                     break;
                 }

@@ -27,7 +27,7 @@
             <hr>
             <!--展示帖子-->
             <div th:if="${pagination}!=null">
-                <div class="media" th:each="question : ${pagination.questionDTOs}">
+                <div class="media" th:each="question : ${pagination.data}">
                     <div class="media-left">
                         <a href="#">
                             <img class="media-object img-thumbnail" th:src="${question.user.avatarUrl}">

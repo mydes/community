@@ -1,19 +1,20 @@
 package com.example.community.service.impl;
 
 import com.example.community.domain.Comment;
+import com.example.community.domain.Notification;
 import com.example.community.domain.Question;
 import com.example.community.domain.User;
 import com.example.community.dto.CommentDTO;
-import com.example.community.dto.QuestionDTO;
 import com.example.community.enums.CommentTypeEnum;
+import com.example.community.enums.NotificationTypeEnum;
+import com.example.community.enums.NotificationStatusEnum;
 import com.example.community.exception.CustomizeErrorCode;
 import com.example.community.exception.CustomizeException;
 import com.example.community.mapper.CommentMapper;
+import com.example.community.mapper.NotificationMapper;
 import com.example.community.mapper.QuestionMapper;
 import com.example.community.mapper.UserMapper;
 import com.example.community.service.CommentService;
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,10 @@ public class CommentServiceImpl implements CommentService {
     private QuestionMapper questionMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private NotificationMapper notificationMapper;
     @Override
-    public void insertComment(Comment comment) {
+    public void insertComment(Comment comment, User commentator) {
         if(comment.getParentId()==null || comment.getParentId() == 0){
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
@@ -45,10 +48,16 @@ public class CommentServiceImpl implements CommentService {
             if (dbComment == null){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
+            Question question = questionMapper.findById(dbComment.getParentId());
+            if (question==null){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
             commentMapper.insertComment(comment);
             //二级回复数
             Integer commentCount = commentMapper.findCommentCount(comment.getParentId());
             commentMapper.updateCommentCount(commentCount,comment.getParentId());
+            //回复通知
+            createNotify(comment, dbComment.getCommentator(),commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLAY_COMMENT, question.getId());
         }else {
             //一级回复
             Question question = questionMapper.findById(comment.getParentId());
@@ -58,8 +67,24 @@ public class CommentServiceImpl implements CommentService {
             commentMapper.insertComment(comment);
             Integer commentCount = questionMapper.findCommentCount(comment.getParentId());
             questionMapper.updateCommentCount(commentCount,comment.getParentId());
+            //回复通知
+             createNotify(comment, question.getCreator(), commentator.getName(),question.getTitle(), NotificationTypeEnum.REPLAY_QUESTION, question.getId());
         }
     }
+
+    private void createNotify(Comment comment, Long receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Long outerId) {
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(notificationType.getType());
+        notification.setOuterId(outerId);
+        notification.setNotifier(comment.getCommentator());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setReceiver(receiver);
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
+        notificationMapper.insertNotification(notification);
+    }
+
     //重點，重點，重點，重點，重點，重點，重點，重點
     @Override
     public List<CommentDTO> findListQuestionId(Long id, CommentTypeEnum type) {

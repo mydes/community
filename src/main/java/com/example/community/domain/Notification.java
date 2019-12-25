@@ -9,6 +9,8 @@ public class Notification {
     private Long receiver;
     private Long outerId;
     private Integer type;
-    private Long gmt_create;
+    private Long gmtCreate;
     private Integer status;
+    private String notifierName;
+    private String outerTitle;
 }

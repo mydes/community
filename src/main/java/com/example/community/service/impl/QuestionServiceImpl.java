@@ -10,7 +10,6 @@ import com.example.community.mapper.QuestionMapper;
 import com.example.community.mapper.UserMapper;
 import com.example.community.service.QuestionService;
 
-import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +62,7 @@ public class QuestionServiceImpl implements QuestionService {
             questionDTO.setUser(user);
             questionDTOS.add(questionDTO);
         }
-        paginationDTO.setQuestionDTOs(questionDTOS);
+        paginationDTO.setData(questionDTOS);
 
         return paginationDTO;
     }
@@ -101,7 +100,7 @@ public class QuestionServiceImpl implements QuestionService {
             questionDTO.setUser(user);
             questionDTOS.add(questionDTO);
         }
-        paginationDTO.setQuestionDTOs(questionDTOS);
+        paginationDTO.setData(questionDTOS);
 
         return paginationDTO;
     }
