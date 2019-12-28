@@ -1,11 +1,65 @@
 package com.example.community.controller;
 
 import com.example.community.dto.FileDTO;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletMapping;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Controller
 public class FileController {
-    public FileDTO upload(){
-        return new FileDTO();
+
+    private static String UPLOADED_FOLDER = "D://temp//";
+    //处理文件上传
+    @RequestMapping(value="/file/upload")
+    public @ResponseBody Map<String,Object> demo(@RequestParam(value = "editormd-image-file", required = false) MultipartFile file, HttpServletRequest request) {
+        System.out.println(file);
+        Map<String,Object> resultMap = new HashMap<String,Object>();
+        System.out.println(request.getContextPath());
+        String realPath = UPLOADED_FOLDER;
+        String fileName = file.getOriginalFilename();
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        fileName = uuid+"_"+fileName;
+//        File targetFile = new File(realPath, fileName);
+//        if(!targetFile.exists()){
+//            targetFile.mkdirs();
+//        }
+//        //保存
+        try {
+//            file.transferTo(targetFile);//保存到一个目标文件中。
+           byte[] bytes = file.getBytes();
+
+            Path path = Paths.get(UPLOADED_FOLDER + fileName);
+
+            Files.write(path, bytes);
+            resultMap.put("success", 1);
+            resultMap.put("message", "上传成功！");
+            resultMap.put("url",UPLOADED_FOLDER+fileName);
+        } catch (Exception e) {
+            resultMap.put("success", 0);
+            resultMap.put("message", "上传失败！");
+            e.printStackTrace();
+        }
+        System.out.println(resultMap.get("success"));
+        return resultMap;
+
+
     }
 }

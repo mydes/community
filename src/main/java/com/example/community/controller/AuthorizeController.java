@@ -6,6 +6,7 @@ import com.example.community.dto.GithubUser;
 import com.example.community.mapper.UserMapper;
 import com.example.community.provider.GithubProvider;
 import com.example.community.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
+@Slf4j
 public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
@@ -28,9 +30,8 @@ public class AuthorizeController {
     @Value("${github.redirect.uri}")
     private String redirectUri;
     @Autowired
-    private UserMapper userMapper;
-    @Autowired
     private UserService userService;
+
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
                            @RequestParam(name="state") String state,
@@ -54,13 +55,13 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setAvatarUrl(githubUser.getAvatarUrl());
             userService.createOrUpdate(user);
-            System.out.println(user.getAvatarUrl());
             //把token写入Cookie回写给浏览器
             response.addCookie(new Cookie("token",token));
             request.getSession().setAttribute("user",githubUser);
             //成功后，用重定向
             return "redirect:/";
         }else {
+            log.error("callback get github error,{}",githubUser);
             return "redirect:/";
         }
     }

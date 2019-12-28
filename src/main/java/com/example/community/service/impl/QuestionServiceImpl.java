@@ -4,6 +4,7 @@ import com.example.community.domain.Question;
 import com.example.community.domain.User;
 import com.example.community.dto.PaginationDTO;
 import com.example.community.dto.QuestionDTO;
+import com.example.community.dto.QuestionQueryDTO;
 import com.example.community.exception.CustomizeErrorCode;
 import com.example.community.exception.CustomizeException;
 import com.example.community.mapper.QuestionMapper;
@@ -30,10 +31,18 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private UserMapper userMapper;
     @Override
-    public PaginationDTO findAll(Integer page, Integer size) {
+    public PaginationDTO findAll(String search,Integer page, Integer size) {
+        if(StringUtils.isNotBlank(search)){
+            //相关问题页面的mysql正则表达tag模糊查询
+            String[] tags = StringUtils.split(search," ");
+            String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
+
         Integer totalPage;
         PaginationDTO paginationDTO = new PaginationDTO();
-        Integer totalCount = questionMapper.count();
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionMapper.count(questionQueryDTO);
         if (totalCount==0){
             return null;
         }
@@ -53,7 +62,9 @@ public class QuestionServiceImpl implements QuestionService {
         Integer offSet = size * (page -1);
 
         //根据计算的下标和分页展示数据条数
-        List<Question> questions = questionMapper.findAll(offSet,size);
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offSet);
+        List<Question> questions = questionMapper.findAll(questionQueryDTO);
         List<QuestionDTO> questionDTOS = new ArrayList<>();
         for (Question question : questions) {
             User user = userMapper.findById(question.getCreator());

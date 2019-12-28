@@ -2,6 +2,7 @@ package com.example.community.mapper;
 
 import com.example.community.domain.Comment;
 import com.example.community.domain.Question;
+import com.example.community.dto.QuestionQueryDTO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -10,10 +11,10 @@ import java.util.List;
 public interface QuestionMapper {
     @Insert("insert into question(title,description,gmt_create,gmt_modified,creator,tag) values(#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag})")
     void create(Question question);
-    @Select("select * from question order by gmt_create desc limit #{offSet},#{size};")
-    List<Question> findAll(@Param("offSet") Integer offSet,@Param("size") Integer size) ;
-    @Select("select count(1) from question")
-    Integer count();
+    @Select("<script>select * from question <where> <if test=\"search !=null \"> and title REGEXP #{search} </if>  </where> order by gmt_create desc limit #{page},#{size} </script>")
+    List<Question> findAll(QuestionQueryDTO questionQueryDTO) ;
+    @Select("<script>select COUNT(*) from question <where> <if test=\"search !=null \"> and title REGEXP #{search} </if>  </where> </script>")
+    Integer count(QuestionQueryDTO questionQueryDTO);
     @Select("select * from question where creator = #{userId} limit #{offSet},#{size}")
     List<Question> findAllUserById(@Param("userId") Long userId,@Param("offSet") Integer offSet,@Param("size") Integer size);
     @Select("select count(1) from question where creator = #{userId}")

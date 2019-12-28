@@ -7,6 +7,7 @@ import com.example.community.dto.QuestionDTO;
 import com.example.community.mapper.QuestionMapper;
 import com.example.community.mapper.UserMapper;
 import com.example.community.service.QuestionService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +25,16 @@ public class IndexController {
     @GetMapping("/")
     public String index(    Model model,
                             @RequestParam(name = "page",defaultValue = "1") Integer page,
-                            @RequestParam(name = "size",defaultValue = "5") Integer size
+                            @RequestParam(name = "size",defaultValue = "5") Integer size,
+                            @RequestParam(name = "search",required = false) String search
                         ){
-        PaginationDTO pagination = questionService.findAll(page,size);
+        if (StringUtils.isBlank(search)){
+            search = null;
+        }
+        PaginationDTO pagination = questionService.findAll(search,page,size);
         if (pagination!=null){
             model.addAttribute("pagination",pagination);
+            model.addAttribute("search",search);
         }else {
             model.addAttribute("noProblem","当前还没有人提问");
         }

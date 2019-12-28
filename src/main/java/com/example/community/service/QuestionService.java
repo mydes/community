@@ -7,7 +7,7 @@ import com.example.community.dto.QuestionDTO;
 import java.util.List;
 
 public interface QuestionService {
-    PaginationDTO findAll(Integer page, Integer size);
+    PaginationDTO findAll(String search,Integer page, Integer size);
 
     PaginationDTO findAll(Long userId, Integer page, Integer size);
 

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>hello！社区</title>
+    <title>CSPC</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
         }
     }
 </script>
-<div th:insert="~{navigation.html :: nav}"></div>
+<div th:insert="~{navigation :: nav}"></div>
 <div class="container-fluid main">
     <div class="row">
         <div class="col-md-9">
@@ -53,27 +53,27 @@
                 <ul class="pagination">
                     <!--分页左边箭头-->
                     <li th:if="${pagination.showFirstPage}">
-                        <a href="/?page=1" aria-label="Previous">
+                        <a th:href="@{/(page=1,search=${search})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                     </li>
                     <li th:if="${pagination.showPrevious}">
-                        <a th:href="@{/(page=${pagination.page - 1})}" aria-label="Previous">
+                        <a th:href="@{/(page=${pagination.page - 1},search=${search})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
                     <!--是否高亮显示-->
                     <li th:each="page : ${pagination.pages}" th:class="${pagination.page==page}?'active':''">
-                        <a th:text="${page}"  th:href="@{/(page=${page})}"></a>
+                        <a th:text="${page}"  th:href="@{/(page=${page},search=${search})}"></a>
                     </li>
                     <!--分页右边箭头-->
                     <li th:if="${pagination.showNext}">
-                        <a th:href="@{/(page=${pagination.page+1})}" aria-label="Previous">
+                        <a th:href="@{/(page=${pagination.page+1},search=${search})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
                     <li th:if="${pagination.showEndPage}">
-                        <a th:href="@{/(page=${pagination.totalPage})}" aria-label="Previous">
+                        <a th:href="@{/(page=${pagination.totalPage},search=${search})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>
@@ -85,5 +85,6 @@
         </div>
     </div>
 </div>
+<div th:insert="~{footer :: foot}"></div>
 </body>
 </html>
