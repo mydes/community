@@ -6,8 +6,8 @@ import com.example.community.domain.Question;
 import com.example.community.domain.User;
 import com.example.community.dto.CommentDTO;
 import com.example.community.enums.CommentTypeEnum;
-import com.example.community.enums.NotificationTypeEnum;
 import com.example.community.enums.NotificationStatusEnum;
+import com.example.community.enums.NotificationTypeEnum;
 import com.example.community.exception.CustomizeErrorCode;
 import com.example.community.exception.CustomizeException;
 import com.example.community.mapper.CommentMapper;
@@ -20,7 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

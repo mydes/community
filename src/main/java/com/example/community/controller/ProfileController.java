@@ -2,7 +2,6 @@ package com.example.community.controller;
 
 import com.example.community.domain.User;
 import com.example.community.dto.PaginationDTO;
-import com.example.community.mapper.UserMapper;
 import com.example.community.service.NotificationService;
 import com.example.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller

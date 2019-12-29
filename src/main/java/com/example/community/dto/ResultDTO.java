@@ -3,9 +3,6 @@ package com.example.community.dto;
 import com.example.community.exception.CustomizeErrorCode;
 import com.example.community.exception.CustomizeException;
 import lombok.Data;
-import okhttp3.internal.http2.ErrorCode;
-
-import java.util.List;
 
 @Data
 public class ResultDTO<T> {

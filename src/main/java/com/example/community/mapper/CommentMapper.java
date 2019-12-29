@@ -1,7 +1,6 @@
 package com.example.community.mapper;
 
 import com.example.community.domain.Comment;
-import com.example.community.dto.CommentDTO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

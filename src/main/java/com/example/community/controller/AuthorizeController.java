@@ -3,7 +3,6 @@ package com.example.community.controller;
 import com.example.community.domain.User;
 import com.example.community.dto.AccessTokenDTO;
 import com.example.community.dto.GithubUser;
-import com.example.community.mapper.UserMapper;
 import com.example.community.provider.GithubProvider;
 import com.example.community.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +50,12 @@ public class AuthorizeController {
             User user = new User();
             String token = UUID.randomUUID().toString();
             user.setToken(token);
-            user.setName(githubUser.getName());
+            if (githubUser.getName()==null){
+                user.setName(githubUser.getId().toString());
+            }else {
+                user.setName(githubUser.getName());
+            }
+
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setAvatarUrl(githubUser.getAvatarUrl());
             userService.createOrUpdate(user);

@@ -1,6 +1,5 @@
 package com.example.community.controller;
 
-import com.example.community.dto.CommentCreateDTO;
 import com.example.community.dto.CommentDTO;
 import com.example.community.dto.QuestionDTO;
 import com.example.community.enums.CommentTypeEnum;

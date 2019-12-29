@@ -1,6 +1,5 @@
 package com.example.community.mapper;
 
-import com.example.community.domain.Comment;
 import com.example.community.domain.Question;
 import com.example.community.dto.QuestionQueryDTO;
 import org.apache.ibatis.annotations.*;

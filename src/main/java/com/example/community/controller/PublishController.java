@@ -4,8 +4,6 @@ import com.example.community.cache.TagCache;
 import com.example.community.domain.Question;
 import com.example.community.domain.User;
 import com.example.community.dto.QuestionDTO;
-import com.example.community.mapper.QuestionMapper;
-import com.example.community.mapper.UserMapper;
 import com.example.community.service.QuestionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
