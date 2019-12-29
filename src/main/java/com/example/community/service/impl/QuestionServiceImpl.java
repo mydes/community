@@ -156,8 +156,13 @@ public class QuestionServiceImpl implements QuestionService {
             return new ArrayList<>();
         }
         //相关问题页面的mysql正则表达tag模糊查询
+
         String[] tags = StringUtils.split(queryDTO.getTag(),",");
         String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        //给转义字符
+        if (regexpTag.contains("c++")){
+            regexpTag = regexpTag.replace("c++", "c\\++");
+        }
         Question question = new Question();
         question.setId(queryDTO.getId());
         question.setTag(regexpTag);

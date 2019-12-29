@@ -1,5 +1,6 @@
 package com.example.community.controller;
 
+import com.example.community.cache.TagCache;
 import com.example.community.domain.Question;
 import com.example.community.domain.User;
 import com.example.community.dto.PaginationDTO;
@@ -25,7 +26,7 @@ public class IndexController {
     @GetMapping("/")
     public String index(    Model model,
                             @RequestParam(name = "page",defaultValue = "1") Integer page,
-                            @RequestParam(name = "size",defaultValue = "5") Integer size,
+                            @RequestParam(name = "size",defaultValue = "10") Integer size,
                             @RequestParam(name = "search",required = false) String search
                         ){
         if (StringUtils.isBlank(search)){

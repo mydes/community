@@ -2,9 +2,8 @@ body{
     background: #efefef;
 }
 .main{
-    margin: 30px 50px 30px 50px;
     background: white;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .btn-publish{
@@ -48,6 +47,9 @@ body{
 .profile .section{
     margin-top: 15px;
 }
+.profile-group{
+    margin-top: 30px;
+}
 .community-menu{
     color: #999;
     font-size: 13px;
@@ -72,7 +74,8 @@ body{
     margin: 4px;
 }
 .media-body{
-    padding-bottom:10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 .btn-comment{
     float: right;
@@ -114,7 +117,15 @@ body{
     color: #499ef3;
 }
 .footer{
-    padding: 10px 25%;
+    margin-top: 10px;
+    text-align: center;
     color: #666;
 }
-
+.whole-title{
+    padding: 15px 0 5px 0;
+    font-size: 24px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+}

@@ -28,7 +28,7 @@ public class NotificationServiceImpl implements NotificationService{
     public PaginationDTO findAll(Long userId, Integer page, Integer size) {
         Integer totalPage;
         PaginationDTO paginationDTO = new PaginationDTO();
-        Integer totalCount = notificationMapper.countByUserId(userId, NotificationStatusEnum.UNREAD.getStatus());
+        Integer totalCount = notificationMapper.countByUserId(userId);
         if (totalCount==0){
             return new PaginationDTO();
         }
@@ -44,7 +44,7 @@ public class NotificationServiceImpl implements NotificationService{
             page=totalPage;
         }
         paginationDTO.setPagination(totalPage,page);
-        //size*(page-1)（数据库为空的时候计算的是个负数）
+        //size*(page-1)
         Integer offSet = size * (page -1);
 
         //根据计算的下标和分页展示数据条数
@@ -66,7 +66,7 @@ public class NotificationServiceImpl implements NotificationService{
 
     @Override
     public Integer unreadCount(Long id) {
-        return notificationMapper.countByUserId(id,NotificationStatusEnum.UNREAD.getStatus());
+        return notificationMapper.countByIdUnread(id,NotificationStatusEnum.UNREAD.getStatus());
     }
 
     @Override

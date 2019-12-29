@@ -20,69 +20,75 @@
     }
 </script>
 <div th:insert="~{navigation :: nav}"></div>
-<div class="container-fluid main">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-9">
-            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"> 发现</span></h2>
-            <hr>
-            <!--展示帖子-->
-            <div th:if="${pagination}!=null">
-                <div class="media" th:each="question : ${pagination.data}">
-                    <div class="media-left">
-                        <a href="#">
-                            <img class="media-object img-thumbnail" th:src="${question.user.avatarUrl}">
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <h5 class="media-heading">
-                            <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
-                        </h5>
-                        <!--<span th:text="${question.description}"></span><br>-->
+        <div class="col-md-1"></div>
+        <!--中间部分-->
+        <div class="col-md-10 main">
+            <div class="col-md-9">
+                <div class="whole-title"><span class="glyphicon glyphicon-list"  aria-hidden="true"> 发现</span></div>
+                <hr>
+                <!--展示帖子-->
+                <div th:if="${pagination}!=null">
+                    <div class="media" th:each="question : ${pagination.data}">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object img-thumbnail" th:src="${question.user.avatarUrl}">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-heading">
+                                <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
+                            </h5>
+                            <!--<span th:text="${question.description}"></span><br>-->
 
-                        <span  class="text-desc">
+                            <span  class="text-desc">
                         <span th:text="${question.commentCount}"></span> 个评论 •
                         <span th:text="${question.viewCount}"></span> 次浏览 •
                         <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
                     </span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!--分页-->
-            <nav aria-label="Page navigation" th:if="${pagination}!=null">
-                <ul class="pagination">
-                    <!--分页左边箭头-->
-                    <li th:if="${pagination.showFirstPage}">
-                        <a th:href="@{/(page=1,search=${search})}" aria-label="Previous">
-                            <span aria-hidden="true">&lt;&lt;</span>
-                        </a>
-                    </li>
-                    <li th:if="${pagination.showPrevious}">
-                        <a th:href="@{/(page=${pagination.page - 1},search=${search})}" aria-label="Previous">
-                            <span aria-hidden="true">&lt;</span>
-                        </a>
-                    </li>
-                    <!--是否高亮显示-->
-                    <li th:each="page : ${pagination.pages}" th:class="${pagination.page==page}?'active':''">
-                        <a th:text="${page}"  th:href="@{/(page=${page},search=${search})}"></a>
-                    </li>
-                    <!--分页右边箭头-->
-                    <li th:if="${pagination.showNext}">
-                        <a th:href="@{/(page=${pagination.page+1},search=${search})}" aria-label="Previous">
-                            <span aria-hidden="true">&gt;</span>
-                        </a>
-                    </li>
-                    <li th:if="${pagination.showEndPage}">
-                        <a th:href="@{/(page=${pagination.totalPage},search=${search})}" aria-label="Previous">
-                            <span aria-hidden="true">&gt;&gt;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+                <!--分页-->
+                <nav aria-label="Page navigation" th:if="${pagination}!=null">
+                    <ul class="pagination">
+                        <!--分页左边箭头-->
+                        <li th:if="${pagination.showFirstPage}">
+                            <a th:href="@{/(page=1,search=${search})}" aria-label="Previous">
+                                <span aria-hidden="true">&lt;&lt;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pagination.showPrevious}">
+                            <a th:href="@{/(page=${pagination.page - 1},search=${search})}" aria-label="Previous">
+                                <span aria-hidden="true">&lt;</span>
+                            </a>
+                        </li>
+                        <!--是否高亮显示-->
+                        <li th:each="page : ${pagination.pages}" th:class="${pagination.page==page}?'active':''">
+                            <a th:text="${page}"  th:href="@{/(page=${page},search=${search})}"></a>
+                        </li>
+                        <!--分页右边箭头-->
+                        <li th:if="${pagination.showNext}">
+                            <a th:href="@{/(page=${pagination.page+1},search=${search})}" aria-label="Previous">
+                                <span aria-hidden="true">&gt;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pagination.showEndPage}">
+                            <a th:href="@{/(page=${pagination.totalPage},search=${search})}" aria-label="Previous">
+                                <span aria-hidden="true">&gt;&gt;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-3 ">
+                <h3>热门话题</h3>
+            </div>
         </div>
-        <div class="col-md-3">
-            <h3>热门话题</h3>
-        </div>
+
+        <div class="col-md-1 "></div>
     </div>
 </div>
 <div th:insert="~{footer :: foot}"></div>
