@@ -39,7 +39,7 @@ public class AuthorizeController {
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setCode(code);
         accessTokenDTO.setClient_secret(clientSecret);
-        accessTokenDTO.setRedirect_uri(redirectUri);
+        accessTokenDTO.setRedirect_uri("http://www.cspc2020.top/callback");
         accessTokenDTO.setState(state);
         //向github发送post请求得到token
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
