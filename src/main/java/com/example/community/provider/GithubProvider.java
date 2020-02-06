@@ -12,6 +12,7 @@ import java.io.IOException;
 public class GithubProvider {
     //向github发送post请求得到token
     public String getAccessToken(AccessTokenDTO accessTokenDTO){
+        System.out.println("accessTokenDTO="+accessTokenDTO.toString());
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(mediaType, JSON.toJSONString(accessTokenDTO));
