@@ -43,8 +43,10 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
         //向github发送post请求得到token
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
+        System.out.println("???"+accessToken);
         //得到token后携带token的值访问github/user 得到用户id、名字等信息
         GithubUser githubUser = githubProvider.getUser(accessToken);
+        System.out.println("githubUser"+githubUser);
         //验证github用户名，验证成功后把得到的信息插入到数据库
         if(githubUser != null && githubUser.getId()!=null){
             User user = new User();
